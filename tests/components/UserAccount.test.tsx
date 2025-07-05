@@ -18,9 +18,9 @@ describe("UserAccount", () => {
     const editButton = screen.getByRole("button");
     expect(editButton).toBeInTheDocument();
     expect(editButton).toHaveTextContent("Edit");
-    const div = screen.getByRole("strong");
-    expect(div).toBeInTheDocument();
-    expect(div).toHaveTextContent("Name:");
+    const strongText = screen.getByRole("strong");
+    expect(strongText).toBeInTheDocument();
+    expect(strongText).toHaveTextContent("Name:");
   });
   it("should render profile without edit for non-admin", () => {
     render(<UserAccount user={{ id: 1, name: "Ammar" }} />);
