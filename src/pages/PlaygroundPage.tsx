@@ -1,7 +1,13 @@
-import Onboarding from "../components/Onboarding";
+import OrderStatusSelector from "../components/OrderStatusSelector";
 
 const PlaygroundPage = () => {
-  return <Onboarding />;
+  return (
+    <OrderStatusSelector
+      onChange={function (status: string): void {
+        console.log("Function not implemented.", status);
+      }}
+    />
+  );
 };
 
 export default PlaygroundPage;
