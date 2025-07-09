@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom/vitest";
+import ResizeObserver from "resize-observer-polyfill";
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
@@ -14,10 +15,20 @@ Object.defineProperty(window, "matchMedia", {
   })),
 });
 
-const ResizeObserverMock = vi.fn(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+if (typeof Element.prototype.hasPointerCapture === "undefined") {
+  Object.defineProperty(Element.prototype, "hasPointerCapture", {
+    value: vi.fn(() => false),
+    writable: true,
+    configurable: true,
+  });
+}
 
-vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+if (typeof Element.prototype.scrollIntoView === "undefined") {
+  Object.defineProperty(Element.prototype, "scrollIntoView", {
+    value: vi.fn(),
+    writable: true,
+    configurable: true,
+  });
+}
+
+vi.stubGlobal("ResizeObserver", ResizeObserver);
