@@ -3,14 +3,14 @@ import ProductList from "../../src/components/ProductList";
 import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
 import { testProductsList } from "../mocks/data";
-import { QueryClient, QueryClientProvider } from "react-query";
+import AllProviders from "../AllProviders";
 
 describe("ProductList", () => {
   const renderComponent = async () => {
     render(
-      <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+      <AllProviders>
         <ProductList />
-      </QueryClientProvider>
+      </AllProviders>
     );
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
   };
