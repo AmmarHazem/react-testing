@@ -1,10 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import ProductDetail from "../../src/components/ProductDetail";
 import { testProductsList } from "../mocks/data";
+import AllProviders from "../AllProviders";
 
 describe("ProductDetail", () => {
   const renderComponent = ({ productId }: { productId: number }) => {
-    render(<ProductDetail productId={productId} />);
+    render(
+      <AllProviders>
+        <ProductDetail productId={productId} />
+      </AllProviders>
+    );
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
   };
   it("should fetch and display product details", async () => {
