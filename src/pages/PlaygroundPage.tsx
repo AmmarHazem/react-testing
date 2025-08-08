@@ -1,13 +1,7 @@
-import OrderStatusSelector from "../components/OrderStatusSelector";
+import BrowseProducts from "./BrowseProductsPage";
 
 const PlaygroundPage = () => {
-  return (
-    <OrderStatusSelector
-      onChange={function (status: string): void {
-        console.log("Function not implemented.", status);
-      }}
-    />
-  );
+  return <BrowseProducts />;
 };
 
 export default PlaygroundPage;
