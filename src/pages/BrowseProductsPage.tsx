@@ -13,9 +13,7 @@ function BrowseProducts() {
   const [isCategoriesLoading, setCategoriesLoading] = useState(false);
   const [errorProducts, setErrorProducts] = useState("");
   const [errorCategories, setErrorCategories] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState<
-    number | undefined
-  >();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | undefined>();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,14 +48,15 @@ function BrowseProducts() {
   if (errorProducts) return <div>Error: {errorProducts}</div>;
 
   const renderCategories = () => {
-    if (isCategoriesLoading) return <Skeleton />;
+    if (isCategoriesLoading)
+      return (
+        <div role="progressbar" aria-label="loading categories">
+          <Skeleton data-testid="categories-loading-skeleton" />
+        </div>
+      );
     if (errorCategories) return <div>Error: {errorCategories}</div>;
     return (
-      <Select.Root
-        onValueChange={(categoryId) =>
-          setSelectedCategoryId(parseInt(categoryId))
-        }
-      >
+      <Select.Root onValueChange={(categoryId) => setSelectedCategoryId(parseInt(categoryId))}>
         <Select.Trigger placeholder="Filter by Category" />
         <Select.Content>
           <Select.Group>
@@ -79,9 +78,7 @@ function BrowseProducts() {
 
     if (errorProducts) return <div>Error: {errorProducts}</div>;
 
-    const visibleProducts = selectedCategoryId
-      ? products.filter((p) => p.categoryId === selectedCategoryId)
-      : products;
+    const visibleProducts = selectedCategoryId ? products.filter((p) => p.categoryId === selectedCategoryId) : products;
 
     return (
       <Table.Root>
@@ -97,13 +94,19 @@ function BrowseProducts() {
             skeletons.map((skeleton) => (
               <Table.Row key={skeleton}>
                 <Table.Cell>
-                  <Skeleton />
+                  <div role="progressbar">
+                    <Skeleton />
+                  </div>
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton />
+                  <div role="progressbar">
+                    <Skeleton />
+                  </div>
                 </Table.Cell>
                 <Table.Cell>
-                  <Skeleton />
+                  <div role="progressbar">
+                    <Skeleton />
+                  </div>
                 </Table.Cell>
               </Table.Row>
             ))}
