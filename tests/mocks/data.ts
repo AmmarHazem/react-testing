@@ -1,4 +1,4 @@
-import { Product } from "../../src/entities";
+import { Category, Product } from "../../src/entities";
 
 export const testProductsList: Product[] = [
   {
@@ -19,4 +19,10 @@ export const testProductsList: Product[] = [
     name: "Test 3",
     price: 300,
   },
+];
+
+export const categories: Category[] = [
+  { id: 1, name: "Test" },
+  { id: 2, name: "Test 2" },
+  { id: 3, name: "Test 3" },
 ];

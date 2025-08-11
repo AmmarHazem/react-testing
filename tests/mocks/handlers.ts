@@ -1,5 +1,5 @@
 import { http, HttpResponse, RequestHandler } from "msw";
-import { testProductsList } from "./data";
+import { categories, testProductsList } from "./data";
 
 export const handlers: RequestHandler[] = [
   http.get("/products/:id", ({ params }) => {
@@ -14,10 +14,6 @@ export const handlers: RequestHandler[] = [
     return HttpResponse.json(testProductsList);
   }),
   http.get("/categories", () => {
-    return HttpResponse.json([
-      { id: 1, name: "Test" },
-      { id: 2, name: "Test 2" },
-      { id: 3, name: "Test 3" },
-    ]);
+    return HttpResponse.json(categories);
   }),
 ];

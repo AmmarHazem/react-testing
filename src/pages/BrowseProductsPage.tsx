@@ -45,7 +45,12 @@ function BrowseProducts() {
     fetchProducts();
   }, []);
 
-  if (errorProducts) return <div>Error: {errorProducts}</div>;
+  if (errorProducts)
+    return (
+      <div role="alert" aria-label="error rendering products">
+        Error: {errorProducts}
+      </div>
+    );
 
   const renderCategories = () => {
     if (isCategoriesLoading)
@@ -54,16 +59,21 @@ function BrowseProducts() {
           <Skeleton data-testid="categories-loading-skeleton" />
         </div>
       );
-    if (errorCategories) return <div>Error: {errorCategories}</div>;
+    if (errorCategories)
+      return (
+        <div role="alert" aria-label="error rendering categories">
+          Error: {errorCategories}
+        </div>
+      );
     return (
       <Select.Root onValueChange={(categoryId) => setSelectedCategoryId(parseInt(categoryId))}>
-        <Select.Trigger placeholder="Filter by Category" />
+        <Select.Trigger aria-label="filter by category" placeholder="Filter by Category" />
         <Select.Content>
           <Select.Group>
             <Select.Label>Category</Select.Label>
             <Select.Item value="all">All</Select.Item>
             {categories?.map((category) => (
-              <Select.Item key={category.id} value={category.id.toString()}>
+              <Select.Item key={category.id} value={category.id.toString()} aria-label={category.name}>
                 {category.name}
               </Select.Item>
             ))}
@@ -76,7 +86,12 @@ function BrowseProducts() {
   const renderProducts = () => {
     const skeletons = [1, 2, 3, 4, 5];
 
-    if (errorProducts) return <div>Error: {errorProducts}</div>;
+    if (errorProducts)
+      return (
+        <div role="alert" aria-label="error rendering products">
+          Error: {errorProducts}
+        </div>
+      );
 
     const visibleProducts = selectedCategoryId ? products.filter((p) => p.categoryId === selectedCategoryId) : products;
 
@@ -94,7 +109,7 @@ function BrowseProducts() {
             skeletons.map((skeleton) => (
               <Table.Row key={skeleton}>
                 <Table.Cell>
-                  <div role="progressbar">
+                  <div role="progressbar" aria-label="loading products">
                     <Skeleton />
                   </div>
                 </Table.Cell>
@@ -112,7 +127,7 @@ function BrowseProducts() {
             ))}
           {!isProductsLoading &&
             visibleProducts.map((product) => (
-              <Table.Row key={product.id}>
+              <Table.Row key={product.id} aria-label={product.name}>
                 <Table.Cell>{product.name}</Table.Cell>
                 <Table.Cell>${product.price}</Table.Cell>
                 <Table.Cell>
