@@ -1,9 +1,9 @@
 import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import routes from "./routes";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
-import routes from "./routes";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
