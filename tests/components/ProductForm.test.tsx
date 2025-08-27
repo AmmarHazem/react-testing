@@ -3,6 +3,7 @@ import { Product } from "../../src/entities";
 import ProductForm from "../../src/components/ProductForm";
 import AllProviders from "../AllProviders";
 import { categories } from "../mocks/data";
+import userEvent from "@testing-library/user-event";
 
 describe("ProductForm", () => {
   const renderComponent = ({ product }: { product?: Product }) => {
@@ -30,6 +31,7 @@ describe("ProductForm", () => {
     const { getNameInput, getPriceInput, getCategoryInput } = renderComponent({});
     const nameInput = await getNameInput();
     expect(nameInput).toBeInTheDocument();
+    expect(nameInput).toHaveFocus();
     const priceInput = await getPriceInput();
     expect(priceInput).toBeInTheDocument();
     const dropdownButton = await getCategoryInput();
@@ -40,11 +42,26 @@ describe("ProductForm", () => {
     const { getNameInput, getPriceInput, getCategoryInput } = renderComponent({ product });
     const nameInput = await getNameInput();
     expect(nameInput).toBeInTheDocument();
+    expect(nameInput).toHaveFocus();
     expect(nameInput.value).toEqual(product.name);
     const priceInput = await getPriceInput();
     expect(priceInput.value).toEqual(product.price.toString());
     const categoriesDropdownButton = await getCategoryInput();
     expect(categoriesDropdownButton).toBeInTheDocument();
     expect(categoriesDropdownButton.textContent).toEqual(categories.find((cat) => cat.id === product.categoryId)?.name);
+  });
+  it("should display validation error", async () => {
+    const { getPriceInput, getCategoryInput } = renderComponent({});
+    const priceInput = await getPriceInput();
+    const categoryDropdown = await getCategoryInput();
+    const user = userEvent.setup();
+    await user.type(priceInput, "10");
+    await user.click(categoryDropdown);
+    const dropdownOptions = screen.getAllByRole("option");
+    await user.click(dropdownOptions[0]);
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+    await user.click(submitButton);
+    const nameErrorAlert = screen.getByRole("alert");
+    expect(nameErrorAlert).toBeInTheDocument();
   });
 });
