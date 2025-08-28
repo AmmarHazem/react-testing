@@ -13,6 +13,10 @@ describe("ProductForm", () => {
       </AllProviders>
     );
     return {
+      getSubmitButton: async () => {
+        const button = await screen.findByRole<HTMLButtonElement>("button", { name: "Submit" });
+        return button;
+      },
       getCategoryInput: async () => {
         const categoriesDropdownButton = await screen.findByRole("combobox", { name: "category" });
         return categoriesDropdownButton;
@@ -50,8 +54,8 @@ describe("ProductForm", () => {
     expect(categoriesDropdownButton).toBeInTheDocument();
     expect(categoriesDropdownButton.textContent).toEqual(categories.find((cat) => cat.id === product.categoryId)?.name);
   });
-  it("should display validation error", async () => {
-    const { getPriceInput, getCategoryInput } = renderComponent({});
+  it("should display validation error for name input", async () => {
+    const { getPriceInput, getCategoryInput, getSubmitButton } = renderComponent({});
     const priceInput = await getPriceInput();
     const categoryDropdown = await getCategoryInput();
     const user = userEvent.setup();
@@ -59,9 +63,23 @@ describe("ProductForm", () => {
     await user.click(categoryDropdown);
     const dropdownOptions = screen.getAllByRole("option");
     await user.click(dropdownOptions[0]);
-    const submitButton = screen.getByRole("button", { name: "Submit" });
+    const submitButton = await getSubmitButton();
     await user.click(submitButton);
     const nameErrorAlert = screen.getByRole("alert");
     expect(nameErrorAlert).toBeInTheDocument();
+  });
+  it("should display validation error for price field", async () => {
+    const { getCategoryInput, getNameInput, getSubmitButton } = renderComponent({});
+    const user = userEvent.setup();
+    const nameInput = await getNameInput();
+    const categoryDropdown = await getCategoryInput();
+    await user.type(nameInput, "Test");
+    await user.click(categoryDropdown);
+    const dropdownOptions = screen.getAllByRole("option");
+    await user.click(dropdownOptions[0]);
+    const submitButton = await getSubmitButton();
+    await user.click(submitButton);
+    const priceErrorAlert = screen.getByRole("alert");
+    expect(priceErrorAlert).toBeInTheDocument();
   });
 });
