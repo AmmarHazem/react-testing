@@ -6,8 +6,7 @@ const QuantitySelector = ({ product }: { product: Product }) => {
   const { getItem, addToCart, removeFromCart } = useCart();
 
   const cartItem = getItem(product);
-  if (!cartItem)
-    return <Button onClick={() => addToCart(product)}>Add to Cart</Button>;
+  if (!cartItem) return <Button onClick={() => addToCart(product)}>Add to Cart</Button>;
 
   return (
     <Flex gap="3" align="center" role="spinbutton">
