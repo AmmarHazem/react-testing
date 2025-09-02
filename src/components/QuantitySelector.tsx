@@ -10,9 +10,13 @@ const QuantitySelector = ({ product }: { product: Product }) => {
 
   return (
     <Flex gap="3" align="center" role="spinbutton">
-      <Button onClick={() => removeFromCart(product)}>-</Button>
+      <Button aria-label="decrease quantity" onClick={() => removeFromCart(product)}>
+        -
+      </Button>
       <Text role="status">{cartItem.quantity}</Text>
-      <Button onClick={() => addToCart(product)}>+</Button>
+      <Button aria-label="increase quantity" onClick={() => addToCart(product)}>
+        +
+      </Button>
     </Flex>
   );
 };
