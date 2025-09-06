@@ -10,9 +10,7 @@ describe("AuthStatus", () => {
       isAuthenticated: true,
       isLoading: false,
     });
-    return {
-      useAuth0,
-    };
+    return { useAuth0 };
   });
   it("shows authenticated user state", async () => {
     render(<AuthStatus />);
