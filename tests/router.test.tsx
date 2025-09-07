@@ -23,4 +23,9 @@ describe("testing page routing ", () => {
     const productNameHeading = await screen.findByRole("heading", { name: new RegExp(name, "i") });
     expect(productNameHeading).toBeInTheDocument();
   });
+  it("should render 404 route for invalid routes", () => {
+    renderRouter({ entries: ["/abc"] });
+    const errorHeading = screen.getByRole("heading", { name: /ops/i });
+    expect(errorHeading).toBeInTheDocument();
+  });
 });
