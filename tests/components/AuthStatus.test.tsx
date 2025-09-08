@@ -2,16 +2,16 @@ import { render, screen } from "@testing-library/react";
 import AuthStatus from "../../src/components/AuthStatus";
 
 describe("AuthStatus", () => {
-  vi.mock("@auth0/auth0-react", () => {
-    const useAuth0 = vi.fn();
-    useAuth0.mockReturnValue({
-      logout: vi.fn(),
-      user: { name: "Test" },
-      isAuthenticated: true,
-      isLoading: false,
-    });
-    return { useAuth0 };
-  });
+  // vi.mock("@auth0/auth0-react", () => {
+  //   const useAuth0 = vi.fn();
+  //   useAuth0.mockReturnValue({
+  //     logout: vi.fn(),
+  //     user: { name: "Test" },
+  //     isAuthenticated: true,
+  //     isLoading: false,
+  //   });
+  //   return { useAuth0, withAuthenticationRequired: (comp: React.ReactNode) => comp };
+  // });
   it("shows authenticated user state", async () => {
     render(<AuthStatus />);
     const loadingText = screen.queryByText(/loading/i);

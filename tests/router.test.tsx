@@ -2,11 +2,16 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import routes from "../src/routes";
 import { testProductsList } from "./mocks/data";
+import AllProviders from "./AllProviders";
 
 describe("testing page routing ", () => {
   const renderRouter = ({ entries }: { entries?: string[] }) => {
     const router = createMemoryRouter(routes, { initialEntries: entries });
-    render(<RouterProvider router={router} />);
+    render(
+      <AllProviders>
+        <RouterProvider router={router} />
+      </AllProviders>
+    );
   };
   it("should render home page for /", () => {
     renderRouter({});
@@ -27,5 +32,16 @@ describe("testing page routing ", () => {
     renderRouter({ entries: ["/abc"] });
     const errorHeading = screen.getByRole("heading", { name: /ops/i });
     expect(errorHeading).toBeInTheDocument();
+  });
+  it("should render admin page for admins", () => {
+    renderRouter({ entries: ["/admin"] });
+    screen.debug();
+    const header = screen.getByRole("heading", { name: /admin/i });
+    expect(header).toBeInTheDocument();
+  });
+  it.each(testProductsList)("should render product $name for each product", async ({ id, name }) => {
+    renderRouter({ entries: [`/products/${id}`] });
+    const header = await screen.findByRole("heading", { name: name });
+    expect(header).toBeInTheDocument();
   });
 });
